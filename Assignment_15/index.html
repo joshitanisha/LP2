@@ -3,240 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration</title>
+    <title>Event Registration System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
-        <h1>Event Registration System</h1>
 
-        <form>
-            <input type="text" placeholder="Enter Name" required>
+        <div class="left-section">
+            <h1>Event Registration System</h1>
+            <p>
+                Register for technical events, workshops, seminars, and hackathons.
+            </p>
 
-            <input type="email" placeholder="Enter Email" required>
+            <img 
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
+                alt="event"
+            >
+        </div>
 
-            <select>
-                <option>Select Event</option>
-                <option>Cloud Computing Workshop</option>
-                <option>AI Seminar</option>
-                <option>Hackathon</option>
-            </select>
+        <div class="right-section">
 
-            <button type="submit">Register</button>
-        </form>
+            <h2>Register Now</h2>
 
-        <p class="msg">Registration Successful</p>
+            <form>
+                <input type="text" placeholder="Full Name" required>
+
+                <input type="email" placeholder="Email Address" required>
+
+                <input type="text" placeholder="College Name" required>
+
+                <select>
+                    <option>Select Event</option>
+                    <option>Cloud Computing Workshop</option>
+                    <option>AI Seminar</option>
+                    <option>Hackathon</option>
+                </select>
+
+                <button type="submit">Submit Registration</button>
+            </form>
+
+        </div>
+
     </div>
 
 </body>
 </html>
 
-# ==========================================
-# ASSIGNMENT 15
-# Event Registration System Deployment
-# ==========================================
 
 
-# ==========================================
-# STEP 0
-# Start EC2 Instance
-# ==========================================
-
-# AWS Console → EC2 → Instances
-# Select instance
-# Instance State → Start Instance
-
-# Copy Public IPv4 Address
-# Example:
-# 98.82.187.249
 
 
-# ==========================================
-# STEP 1
-# Create Assignment15 Folder In GitHub
-# ==========================================
-
-# Create:
-# Assignment15/index.html
-# Assignment15/style.css
-# Assignment15/server.js
-# Assignment15/package.json
 
 
-# ==========================================
-# STEP 2
-# Add HTML, CSS, server.js and package.json
-# ==========================================
+<!--
+==========================================
+ASSIGNMENT 15
+Event Registration System Deployment
+==========================================
 
-# index.html → Event Registration UI
-# style.css → Styling
-# server.js → Express backend server
-# package.json → Dependencies
+STEP 0
+Start EC2 Instance
+
+AWS Console → EC2 → Instances
+Select instance
+Instance State → Start Instance
+
+Copy Public IPv4 Address
 
 
-# ==========================================
-# STEP 3
-# Open Terminal
-# ==========================================
+==========================================
+STEP 1
+Create Files In GitHub
+==========================================
+
+Assignment15/index.html
+Assignment15/style.css
+Assignment15/server.js
+Assignment15/package.json
+
+
+==========================================
+STEP 2
+Open Terminal
+==========================================
 
 cd ~/Downloads
 
 
-# ==========================================
-# STEP 4
-# Check PEM File
-# ==========================================
+==========================================
+STEP 3
+Check PEM File
+==========================================
 
 ls
 
 
-# ==========================================
-# STEP 5
-# Give Permission To PEM File
-# ==========================================
+==========================================
+STEP 4
+Give Permission To PEM File
+==========================================
 
 chmod 400 lp2.pem
 
 
-# ==========================================
-# STEP 6
-# Connect To EC2 Using SSH
-# ==========================================
+==========================================
+STEP 5
+Connect To EC2 Using SSH
+==========================================
 
-ssh -i lp2.pem ubuntu@98.82.187.249
+ssh -i lp2.pem ubuntu@YOUR_PUBLIC_IP
 
 
-# ==========================================
-# STEP 7
-# Update Ubuntu Packages
-# ==========================================
+==========================================
+STEP 6
+Update Ubuntu Packages
+==========================================
 
 sudo apt update
 
 
-# ==========================================
-# STEP 8
-# Remove Old Repository Copy
-# SAFE: Does NOT Delete GitHub Repo
-# ==========================================
+==========================================
+STEP 7
+Remove Old Repository Copy
+SAFE: Does NOT Delete GitHub Repo
+==========================================
 
 sudo rm -rf LP2
 
 
-# ==========================================
-# STEP 9
-# Clone Updated GitHub Repository
-# ==========================================
+==========================================
+STEP 8
+Clone Updated GitHub Repository
+==========================================
 
 git clone https://github.com/joshitanisha/LP2.git
 
 
-# ==========================================
-# STEP 10
-# Open Assignment15 Folder
-# ==========================================
+==========================================
+STEP 9
+Open Assignment15 Folder
+==========================================
 
 cd LP2/Assignment15
 
 
-# ==========================================
-# STEP 11
-# Install Node.js and npm
-# ==========================================
+==========================================
+STEP 10
+Install Node.js and npm
+==========================================
 
 sudo apt install nodejs npm -y
 
 
-# ==========================================
-# STEP 12
-# Check Node.js Version
-# ==========================================
+==========================================
+STEP 11
+Check Node.js Version
+==========================================
 
 node -v
 
 
-# ==========================================
-# STEP 13
-# Install Express Dependency
-# ==========================================
+==========================================
+STEP 12
+Install Express Dependency
+==========================================
 
 npm install
 
 
-# ==========================================
-# STEP 14
-# Run Node.js Server
-# ==========================================
+==========================================
+STEP 13
+Run Node.js Server
+==========================================
 
 node server.js
 
-
-# You should see:
-# Server running on port 3000
-
-
-# ==========================================
-# STEP 15
-# Open Port 3000 In Security Group
-# ==========================================
-
-# AWS Console → EC2 → Security Groups
-# Open attached security group
-# Inbound Rules → Edit Inbound Rules
-
-# Add:
-# Type: Custom TCP
-# Port: 3000
-# Source: Anywhere
-
-# Save Rules
+You should see:
+Server running on port 3000
 
 
-# ==========================================
-# STEP 16
-# Open Website In Browser
-# ==========================================
+==========================================
+STEP 14
+Open Port 3000 In Security Group
+==========================================
 
-# Browser:
-# http://98.82.187.249:3000
+AWS Console → EC2 → Security Groups
 
+Inbound Rules → Edit Inbound Rules
 
-# ==========================================
-# IMPORTANT VIVA POINTS
-# ==========================================
+Add:
+Type: Custom TCP
+Port: 3000
+Source: Anywhere
 
-# Node.js:
-# JavaScript runtime environment
-
-# Express.js:
-# Backend framework for Node.js
-
-# npm:
-# Node Package Manager
-
-# Port 3000:
-# Used for Node.js applications
-
-# EC2:
-# Virtual cloud server
-
-# Deployment:
-# Making application accessible online
-
-# Security Group:
-# Firewall controlling traffic
-
-# SSH:
-# Secure remote login into EC2 server
+Save Rules
 
 
-# ==========================================
-# AFTER COMPLETION
-# ==========================================
+==========================================
+STEP 15
+Open Website In Browser
+==========================================
 
-# AWS Console → EC2 → Instances
-# Instance State → Stop Instance
+http://YOUR_PUBLIC_IP:3000
 
-# Do NOT terminate instance
+
+==========================================
+IMPORTANT VIVA POINTS
+==========================================
+
+Node.js:
+JavaScript runtime environment
+
+Express.js:
+Backend framework for Node.js
+
+npm:
+Node Package Manager
+
+Port 3000:
+Used for Node.js applications
+
+EC2:
+Virtual cloud server
+
+Deployment:
+Making application accessible online
+
+Security Group:
+Firewall controlling traffic
+
+SSH:
+Secure remote login into EC2 server
+
+
+==========================================
+AFTER COMPLETION
+==========================================
+
+AWS Console → EC2 → Instances
+Instance State → Stop Instance
+
+Do NOT terminate instance
+-->
+
 
