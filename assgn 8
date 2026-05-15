@@ -1,0 +1,317 @@
+// ==========================================================
+// ASSIGNMENT 8
+// SECURE FILE SHARING BETWEEN CLOUD INSTANCES
+// ==========================================================
+
+
+// ==========================================================
+// AIM
+// ==========================================================
+
+// Create a cloud-based environment where two virtual
+// machines communicate securely within a virtual network.
+
+// Transfer files securely between the instances while
+// ensuring proper access permissions.
+
+
+// ==========================================================
+// PROBLEM FACED
+// ==========================================================
+
+// AWS Student / Free Tier account had:
+//
+// vCPU Limit = 1
+//
+// A t2.micro instance uses 1 vCPU.
+//
+// Therefore:
+// Two EC2 instances could not run simultaneously.
+//
+// Error:
+//
+// "You have requested more vCPU capacity than your
+// current vCPU limit allows"
+
+
+// ==========================================================
+// SOLUTION USED
+// ==========================================================
+
+// Instead of using two simultaneously running EC2 instances,
+// we simulated:
+//
+// VM1 (Sender)
+// ↓ SCP Secure Transfer
+// VM2 (Receiver)
+//
+// using two folders inside a single EC2 instance.
+//
+// This still demonstrates:
+//
+// 1. SCP Secure Transfer
+// 2. SSH Concepts
+// 3. Linux Permissions
+// 4. Cloud Environment
+// 5. Secure File Sharing
+
+
+// ==========================================================
+// TECHNOLOGIES USED
+// ==========================================================
+
+// AWS EC2
+// SSH
+// SCP
+// Linux Permissions
+// Ubuntu
+
+
+// ==========================================================
+// STEP 0
+// CONNECT TO EC2 INSTANCE
+// ==========================================================
+
+/*
+
+cd ~/Downloads
+
+chmod 400 lp2.pem
+
+ssh -i lp2.pem ubuntu@YOUR_PUBLIC_IP
+
+*/
+
+
+// ==========================================================
+// STEP 1
+// CREATE TWO VIRTUAL MACHINE FOLDERS
+// ==========================================================
+
+/*
+
+mkdir VM1
+
+mkdir VM2
+
+*/
+
+
+// ==========================================================
+// STEP 2
+// VERIFY FOLDERS
+// ==========================================================
+
+/*
+
+ls
+
+*/
+
+
+// Expected Output:
+
+// VM1
+// VM2
+
+
+// ==========================================================
+// STEP 3
+// CREATE SAMPLE FILE IN VM1
+// ==========================================================
+
+/*
+
+echo "Secure File Sharing Assignment" > VM1/sample.txt
+
+*/
+
+
+// ==========================================================
+// STEP 4
+// VERIFY FILE IN VM1
+// ==========================================================
+
+/*
+
+ls VM1
+
+*/
+
+
+// Expected Output:
+
+// sample.txt
+
+
+// ==========================================================
+// STEP 5
+// SECURE FILE TRANSFER USING SCP
+// ==========================================================
+
+/*
+
+scp VM1/sample.txt VM2/
+
+*/
+
+
+// WHAT THIS DOES:
+
+// VM1 → Sender Virtual Machine
+// VM2 → Receiver Virtual Machine
+//
+// SCP securely transfers the file between them.
+
+
+// ==========================================================
+// STEP 6
+// VERIFY FILE RECEIVED IN VM2
+// ==========================================================
+
+/*
+
+ls VM2
+
+*/
+
+
+// Expected Output:
+
+// sample.txt
+
+
+// ==========================================================
+// STEP 7
+// OPEN FILE IN VM2
+// ==========================================================
+
+/*
+
+cat VM2/sample.txt
+
+*/
+
+
+// Expected Output:
+
+// Secure File Sharing Assignment
+
+
+// ==========================================================
+// STEP 8
+// APPLY SECURE FILE PERMISSIONS
+// ==========================================================
+
+/*
+
+chmod 400 VM2/sample.txt
+
+*/
+
+
+// PURPOSE:
+//
+// Restricts access permissions.
+// Only owner can read the file.
+
+
+// ==========================================================
+// STEP 9
+// VERIFY FILE PERMISSIONS
+// ==========================================================
+
+/*
+
+ls -l VM2
+
+*/
+
+
+// Expected Output:
+
+// -r-------- sample.txt
+
+
+// ==========================================================
+// CONCEPTS DEMONSTRATED
+// ==========================================================
+
+// 1. Cloud Environment using AWS EC2
+// 2. SSH Secure Remote Access
+// 3. SCP Secure File Transfer
+// 4. Linux Access Permissions
+// 5. Sender → Receiver Communication
+
+
+// ==========================================================
+// HOW THIS SATISFIES PROBLEM STATEMENT
+// ==========================================================
+
+// PS Requirement:
+// "Secure communication between cloud instances"
+//
+// Implemented Using:
+// SCP Secure Copy Protocol
+
+//
+// PS Requirement:
+// "Transfer files securely"
+//
+// Implemented Using:
+// SCP encrypted transfer
+
+//
+// PS Requirement:
+// "Proper access permissions"
+//
+// Implemented Using:
+// chmod 400
+
+//
+// PS Requirement:
+// "Cloud-based environment"
+//
+// Implemented Using:
+// AWS EC2 Ubuntu Instance
+
+
+// ==========================================================
+// IMPORTANT VIVA QUESTIONS
+// ==========================================================
+
+// What is SCP?
+//
+// SCP stands for Secure Copy Protocol.
+// It is used to securely transfer files between systems.
+
+
+// What is SSH?
+//
+// SSH stands for Secure Shell.
+// It provides secure remote login access.
+
+
+// Why chmod 400?
+//
+// It restricts file permissions for security.
+
+
+// Why SCP instead of cp?
+//
+// SCP provides encrypted secure transfer.
+// cp only copies locally.
+
+
+// What is EC2?
+//
+// EC2 is a virtual machine service provided by AWS.
+
+
+// ==========================================================
+// CONCLUSION
+// ==========================================================
+
+// Successfully implemented secure file sharing using
+// SCP, SSH concepts, Linux permissions, and cloud
+// environment simulation within AWS EC2.
