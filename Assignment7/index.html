@@ -27,3 +27,176 @@
 
 </body>
 </html>
+# ==========================================
+# ASSIGNMENT 7
+# Static Website Deployment Using AWS EC2
+# ==========================================
+
+
+# ==========================================
+# STEP 0
+# Launch EC2 Instance
+# ==========================================
+
+# AWS Console → EC2 → Launch Instance
+
+# Select:
+# Ubuntu Server
+
+# Instance Type:
+# t2.micro (Free Tier)
+
+# Create Key Pair:
+# assgn7.pem
+
+# Security Group:
+# Allow SSH → Port 22
+# Allow HTTP → Port 80
+
+# Launch Instance
+
+
+# ==========================================
+# STEP 1
+# Create GitHub Repository Files
+# ==========================================
+
+# Create:
+# Assignment7/index.html
+# Assignment7/style.css
+
+
+# ==========================================
+# STEP 2
+# Open Terminal
+# ==========================================
+
+cd ~/Downloads
+
+
+# ==========================================
+# STEP 3
+# Check PEM File
+# ==========================================
+
+ls
+
+
+# ==========================================
+# STEP 4
+# Give Permission To PEM File
+# ==========================================
+
+chmod 400 assgn7.pem
+
+
+# ==========================================
+# STEP 5
+# Connect To EC2 Using SSH
+# ==========================================
+
+ssh -i assgn7.pem ubuntu@98.82.187.249
+
+
+# ==========================================
+# STEP 6
+# Update Ubuntu Packages
+# ==========================================
+
+sudo apt update
+
+
+# ==========================================
+# STEP 7
+# Install Apache Web Server
+# ==========================================
+
+sudo apt install apache2 -y
+
+
+# ==========================================
+# STEP 8
+# Install Git
+# ==========================================
+
+sudo apt install git -y
+
+
+# ==========================================
+# STEP 9
+# Start Apache Service
+# ==========================================
+
+sudo systemctl start apache2
+
+
+# ==========================================
+# STEP 10
+# Enable Apache Service
+# ==========================================
+
+sudo systemctl enable apache2
+
+
+# ==========================================
+# STEP 11
+# Clone GitHub Repository
+# ==========================================
+
+git clone https://github.com/joshitanisha/LP2.git
+
+
+# ==========================================
+# STEP 12
+# Open Assignment7 Folder
+# ==========================================
+
+cd LP2/Assignment7
+
+
+# ==========================================
+# STEP 13
+# Copy Website Files To Apache Directory
+# ==========================================
+
+sudo cp -r * /var/www/html/
+
+
+# ==========================================
+# STEP 14
+# Open Website In Browser
+# ==========================================
+
+# Browser:
+# http://98.82.187.249
+
+
+# ==========================================
+# IMPORTANT VIVA POINTS
+# ==========================================
+
+# EC2:
+# Virtual cloud server
+
+# Apache:
+# Web server used for hosting
+
+# Port 22:
+# SSH remote login
+
+# Port 80:
+# HTTP website access
+
+# GitHub:
+# Version control and deployment
+
+# Deployment:
+# Making website accessible online
+
+
+# ==========================================
+# AFTER COMPLETION
+# ==========================================
+
+# Stop Instance:
+# EC2 → Instance State → Stop Instance
