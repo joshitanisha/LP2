@@ -28,3 +28,211 @@
 
 </body>
 </html>
+
+//# ==========================================
+# ASSIGNMENT 9
+# Blog Application Deployment Using AWS EC2
+# ==========================================
+
+
+# ==========================================
+# STEP 0
+# Start EC2 Instance
+# ==========================================
+
+# AWS Console → EC2 → Instances
+# Select instance
+# Instance State → Start Instance
+
+# Copy Public IPv4 Address
+# Example:
+# 98.82.187.249
+
+
+# ==========================================
+# STEP 1
+# Create Assignment_9 Folder In GitHub
+# ==========================================
+
+# Create these files:
+# Assignment_9/index.html
+# Assignment_9/style.css
+# Assignment_9/server.js
+# Assignment_9/package.json
+
+
+# ==========================================
+# STEP 2
+# Add HTML, CSS, server.js and package.json
+# ==========================================
+
+# index.html → frontend UI
+# style.css → styling
+# server.js → Express backend server
+# package.json → project dependencies
+
+
+# ==========================================
+# STEP 3
+# Open Terminal
+# ==========================================
+
+cd ~/Downloads
+
+
+# ==========================================
+# STEP 4
+# Check PEM File
+# ==========================================
+
+ls
+
+
+# ==========================================
+# STEP 5
+# Give Permission To PEM File
+# ==========================================
+
+chmod 400 lp2.pem
+
+
+# ==========================================
+# STEP 6
+# Connect To EC2 Using SSH
+# ==========================================
+
+ssh -i lp2.pem ubuntu@98.82.187.249
+
+
+# ==========================================
+# STEP 7
+# Update Ubuntu Packages
+# ==========================================
+
+sudo apt update
+
+
+# ==========================================
+# STEP 8
+# Install Node.js and npm
+# ==========================================
+
+sudo apt install nodejs npm -y
+
+
+# ==========================================
+# STEP 9
+# Check Node.js Version
+# ==========================================
+
+node -v
+
+
+# ==========================================
+# STEP 10
+# Remove Old Repository Copy From EC2
+# SAFE: Does NOT Delete GitHub Repo
+# ==========================================
+
+sudo rm -rf LP2
+
+
+# ==========================================
+# STEP 11
+# Clone Updated GitHub Repository
+# ==========================================
+
+git clone https://github.com/joshitanisha/LP2.git
+
+
+# ==========================================
+# STEP 12
+# Open Assignment_9 Folder
+# ==========================================
+
+cd LP2/Assignment_9
+
+
+# ==========================================
+# STEP 13
+# Install Express Dependency
+# ==========================================
+
+npm install
+
+
+# ==========================================
+# STEP 14
+# Run Node.js Server
+# ==========================================
+
+node server.js
+
+
+# You should see:
+# Server running on port 3000
+
+
+# ==========================================
+# STEP 15
+# Open Port 3000 In Security Group
+# ==========================================
+
+# AWS Console → EC2 → Security Groups
+# Open attached security group
+# Inbound Rules → Edit Inbound Rules
+
+# Add:
+# Type: Custom TCP
+# Port: 3000
+# Source: Anywhere
+
+# Save Rules
+
+
+# ==========================================
+# STEP 16
+# Open Website In Browser
+# ==========================================
+
+# Browser:
+# http://98.82.187.249:3000
+
+
+# ==========================================
+# IMPORTANT VIVA POINTS
+# ==========================================
+
+# Node.js:
+# JavaScript runtime environment
+
+# Express.js:
+# Backend framework for Node.js
+
+# npm:
+# Node Package Manager
+
+# Port 3000:
+# Used for Node.js application hosting
+
+# EC2:
+# Virtual cloud server
+
+# Deployment:
+# Making application accessible online
+
+# Security Group:
+# Firewall controlling traffic
+
+# SSH:
+# Secure remote server login
+
+
+# ==========================================
+# AFTER COMPLETION
+# ==========================================
+
+# AWS Console → EC2 → Instances
+# Instance State → Stop Instance
+
+# Do NOT terminate instance
