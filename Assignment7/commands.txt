@@ -1,1 +1,35 @@
+# Go to Downloads folder where .pem file is stored
+cd ~/Downloads
 
+# Check if .pem file exists
+ls
+
+# Give secure permission to pem file
+chmod 400 assgn7.pem
+
+# Connect to AWS EC2 instance using SSH
+ssh -i assgn7.pem ubuntu@98.82.187.249
+
+# Update Ubuntu packages
+sudo apt update
+
+# Install Apache web server
+sudo apt install apache2 -y
+
+# Install Git
+sudo apt install git -y
+
+# Start Apache service
+sudo systemctl start apache2
+
+# Enable Apache service on boot
+sudo systemctl enable apache2
+
+# Clone GitHub repository
+git clone https://github.com/joshitanisha/LP2.git
+
+# Open Assignment7 folder
+cd LP2/Assignment7
+
+# Copy website files to Apache server directory
+sudo cp -r * /var/www/html/
