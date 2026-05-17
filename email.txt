@@ -1,0 +1,421 @@
+// ==========================================================
+// ASSIGNMENT 22
+// SALESFORCE EMAIL NOTIFICATION SYSTEM
+// WITH VISUALFORCE FRONTEND
+// ==========================================================
+
+
+// ==========================================================
+// AIM
+// ==========================================================
+
+// Develop an Apex program with Visualforce frontend
+// that sends email notifications using Salesforce
+// Email Services.
+//
+// The system should:
+//
+// 1. Accept recipient email
+// 2. Accept subject
+// 3. Accept message body
+// 4. Send email
+// 5. Show error for invalid email
+
+
+// ==========================================================
+// WHAT WE WILL CREATE
+// ==========================================================
+
+// 1. Apex Controller
+// 2. Visualforce Page
+// 3. Email Validation
+// 4. Email Sending Logic
+
+
+// ==========================================================
+// STEP 1
+// LOGIN TO SALESFORCE
+// ==========================================================
+
+// Open:
+//
+// https://login.salesforce.com
+
+// Login to Salesforce Developer Org
+
+
+// ==========================================================
+// STEP 2
+// OPEN SETUP
+// ==========================================================
+
+// Top Right
+//
+// Gear Icon
+// → Setup
+
+
+// ==========================================================
+// STEP 3
+// CREATE APEX CLASS
+// ==========================================================
+
+// Search:
+//
+// Apex Classes
+
+// Open:
+//
+// Apex Classes
+
+// Click:
+//
+// New
+
+
+// ==========================================================
+// STEP 4
+// CLASS NAME
+// ==========================================================
+
+// EmailController
+
+
+// ==========================================================
+// STEP 5
+// PASTE APEX CODE
+// ==========================================================
+
+/*
+
+public class EmailController {
+
+    public String toEmail {get; set;}
+
+    public String subject {get; set;}
+
+    public String body {get; set;}
+
+
+
+    public PageReference sendEmail() {
+
+        if(toEmail == null || !toEmail.contains('@')) {
+
+            ApexPages.addMessage(
+
+                new ApexPages.Message(
+
+                    ApexPages.Severity.ERROR,
+
+                    'Invalid Email Address'
+
+                )
+            );
+
+            return null;
+        }
+
+
+
+        Messaging.SingleEmailMessage mail =
+            new Messaging.SingleEmailMessage();
+
+        mail.setToAddresses(
+            new String[] {toEmail}
+        );
+
+        mail.setSubject(subject);
+
+        mail.setPlainTextBody(body);
+
+        Messaging.sendEmail(
+
+            new Messaging.SingleEmailMessage[] {mail}
+
+        );
+
+
+
+        ApexPages.addMessage(
+
+            new ApexPages.Message(
+
+                ApexPages.Severity.CONFIRM,
+
+                'Email Sent Successfully'
+
+            )
+        );
+
+        return null;
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 6
+// SAVE CLASS
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// EXPECTED RESULT
+// ==========================================================
+
+// Apex Class Saved Successfully
+
+
+// ==========================================================
+// STEP 7
+// CREATE VISUALFORCE PAGE
+// ==========================================================
+
+// Search:
+//
+// Visualforce Pages
+
+// Open:
+//
+// Visualforce Pages
+
+// Click:
+//
+// New
+
+
+// ==========================================================
+// STEP 8
+// PAGE DETAILS
+// ==========================================================
+
+// Label:
+// EmailPage
+
+// Name:
+// EmailPage
+
+
+// ==========================================================
+// STEP 9
+// PASTE VISUALFORCE CODE
+// ==========================================================
+
+/*
+
+<apex:page controller="EmailController">
+
+    <apex:form>
+
+        <apex:pageBlock title="Email Notification System">
+
+            <apex:pageMessages />
+
+
+
+            <apex:pageBlockSection columns="1">
+
+                <apex:inputText
+                    value="{!toEmail}"
+                    label="Recipient Email"
+                />
+
+                <apex:inputText
+                    value="{!subject}"
+                    label="Subject"
+                />
+
+                <apex:inputTextarea
+                    value="{!body}"
+                    label="Message Body"
+                />
+
+            </apex:pageBlockSection>
+
+
+
+            <apex:commandButton
+                value="Send Email"
+                action="{!sendEmail}"
+            />
+
+        </apex:pageBlock>
+
+    </apex:form>
+
+</apex:page>
+
+*/
+
+
+// ==========================================================
+// STEP 10
+// SAVE PAGE
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// STEP 11
+// PREVIEW PAGE
+// ==========================================================
+
+// Click:
+//
+// Preview
+
+
+// ==========================================================
+// EXPECTED RESULT
+// ==========================================================
+
+// Email Form opens with:
+//
+// Recipient Email
+// Subject
+// Message Body
+// Send Email Button
+
+
+// ==========================================================
+// STEP 12
+// TEST INVALID EMAIL
+// ==========================================================
+
+// Enter:
+//
+// abc
+
+// Click:
+//
+// Send Email
+
+
+// ==========================================================
+// EXPECTED RESULT
+// ==========================================================
+
+// Invalid Email Address
+
+
+// ==========================================================
+// STEP 13
+// TEST VALID EMAIL
+// ==========================================================
+
+// Enter:
+//
+// yourgmail@gmail.com
+
+// Subject:
+//
+// Salesforce Test
+
+// Body:
+//
+// Hello from Salesforce Visualforce Email System
+
+
+// ==========================================================
+// STEP 14
+// SEND EMAIL
+// ==========================================================
+
+// Click:
+//
+// Send Email
+
+
+// ==========================================================
+// EXPECTED RESULT
+// ==========================================================
+
+// Email Sent Successfully
+
+
+// ==========================================================
+// STEP 15
+// CHECK GMAIL
+// ==========================================================
+
+// Open Gmail Inbox
+
+// Search:
+//
+// Salesforce Test
+
+
+// ==========================================================
+// EXPECTED OUTPUT
+// ==========================================================
+
+// Email received successfully
+
+
+// ==========================================================
+// IMPORTANT VIVA QUESTIONS
+// ==========================================================
+
+// What is Visualforce?
+//
+// Salesforce frontend framework.
+
+
+// What is Apex?
+//
+// Salesforce backend language.
+
+
+// What is Controller?
+//
+// Connects frontend with backend logic.
+
+
+// What is ApexPages.addMessage()?
+//
+// Displays success/error messages.
+
+
+// What is Messaging.SingleEmailMessage?
+//
+// Salesforce email sending class.
+
+
+// Why validate email?
+//
+// To prevent invalid email delivery.
+
+
+// Difference between Assignment 21 and 22?
+//
+// 21 → Console based
+// 22 → Frontend Visualforce based
+
+
+// ==========================================================
+// ADVANTAGES
+// ==========================================================
+
+// 1. User Friendly
+// 2. Frontend Validation
+// 3. Automated Email Sending
+// 4. Cloud Based System
+
+
+// ==========================================================
+// CONCLUSION
+// ==========================================================
+
+// Successfully implemented Email Notification
+// System using Salesforce Apex,
+// Visualforce frontend,
+// and Email Services.
