@@ -1,0 +1,652 @@
+// ==========================================================
+// ASSIGNMENT 23
+// COLLEGE MANAGEMENT LIGHTNING APPLICATION
+// ==========================================================
+
+
+// ==========================================================
+// AIM
+// ==========================================================
+
+// Develop a College Management Lightning Application
+// using Salesforce, Apex and LWC to:
+//
+// 1. Store Student Records
+// 2. Store Faculty Records
+// 3. Apply Validations
+// 4. Maintain Data Accuracy
+
+
+// ==========================================================
+// VALIDATIONS
+// ==========================================================
+
+// STUDENT:
+//
+// - Marks between 0 and 100
+// - Roll Number > 0
+// - Email must contain @
+// - Student Name cannot be blank
+
+
+// FACULTY:
+//
+// - Faculty Name >= 3 chars
+// - Faculty ID unique
+// - Salary between 10000 and 500000
+// - Department required
+// - Joining Date not future
+
+
+// ==========================================================
+// STEP 0
+// CREATE SALESFORCE PROJECT
+// ==========================================================
+
+/*
+
+cd ~/LP2
+
+sf project generate --name Assignment23
+
+*/
+
+
+// ==========================================================
+// STEP 1
+// OPEN PROJECT
+// ==========================================================
+
+/*
+
+cd Assignment23
+
+code .
+
+*/
+
+
+// ==========================================================
+// STEP 2
+// LOGIN TO SALESFORCE
+// ==========================================================
+
+/*
+
+sf org login web --instance-url https://login.salesforce.com
+
+*/
+
+
+// ==========================================================
+// STEP 3
+// CREATE STUDENT OBJECT
+// ==========================================================
+
+// Salesforce
+//
+// Setup
+// → Object Manager
+// → Create
+// → Custom Object
+
+
+// ==========================================================
+// STUDENT OBJECT DETAILS
+// ==========================================================
+
+// Label:
+// Student
+//
+// Plural Label:
+// Students
+//
+// Object Name:
+// Student
+//
+// Record Name:
+// Student Name
+
+
+// ==========================================================
+// STEP 4
+// CREATE STUDENT FIELDS
+// ==========================================================
+
+// Roll Number → Number
+// Marks → Number
+// Email → Email
+
+
+// ==========================================================
+// STEP 5
+// CREATE FACULTY OBJECT
+// ==========================================================
+
+// Setup
+// → Object Manager
+// → Create
+// → Custom Object
+
+
+// ==========================================================
+// FACULTY OBJECT DETAILS
+// ==========================================================
+
+// Label:
+// Faculty
+//
+// Plural Label:
+// Faculties
+//
+// Object Name:
+// Faculty
+//
+// Record Name:
+// Faculty Name
+
+
+// ==========================================================
+// STEP 6
+// CREATE FACULTY FIELDS
+// ==========================================================
+
+// Faculty ID → Number
+// Salary → Currency
+// Department → Picklist
+// Joining Date → Date
+
+
+// ==========================================================
+// DEPARTMENT PICKLIST VALUES
+// ==========================================================
+
+// Computer
+// IT
+// EXTC
+// Mechanical
+
+
+// ==========================================================
+// STEP 7
+// GENERATE APEX CLASS
+// ==========================================================
+
+/*
+
+sf apex generate class --name CollegeController
+
+*/
+
+
+// ==========================================================
+// STEP 8
+// CollegeController.cls CODE
+// ==========================================================
+
+/*
+
+public with sharing class CollegeController {
+
+    @AuraEnabled
+    public static String saveStudent(
+
+        String studentName,
+        Integer rollNo,
+        Decimal marks,
+        String email
+
+    ) {
+
+        if(studentName == null || studentName == '') {
+
+            return 'Student Name cannot be blank';
+        }
+
+        if(rollNo <= 0) {
+
+            return 'Roll Number must be greater than 0';
+        }
+
+        if(marks < 0 || marks > 100) {
+
+            return 'Marks should be between 0 and 100';
+        }
+
+        if(!email.contains('@')) {
+
+            return 'Invalid Email';
+        }
+
+        Student__c s = new Student__c();
+
+        s.Name = studentName;
+        s.Roll_Number__c = rollNo;
+        s.Marks__c = marks;
+        s.Email__c = email;
+
+        insert s;
+
+        return 'Student Record Saved Successfully';
+    }
+
+
+
+    @AuraEnabled
+    public static String saveFaculty(
+
+        String facultyName,
+        Integer facultyId,
+        Decimal salary,
+        String department,
+        Date joiningDate
+
+    ) {
+
+        if(facultyName == null || facultyName.length() < 3) {
+
+            return 'Faculty Name must contain at least 3 characters';
+        }
+
+        if(facultyId <= 0) {
+
+            return 'Faculty ID must be greater than 0';
+        }
+
+        if(salary < 10000 || salary > 500000) {
+
+            return 'Salary must be between 10000 and 500000';
+        }
+
+        if(joiningDate > Date.today()) {
+
+            return 'Joining Date cannot be future date';
+        }
+
+        Faculty__c f = new Faculty__c();
+
+        f.Name = facultyName;
+        f.Faculty_ID__c = facultyId;
+        f.Salary__c = salary;
+        f.Department__c = department;
+        f.Joining_Date__c = joiningDate;
+
+        insert f;
+
+        return 'Faculty Record Saved Successfully';
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 9
+// GENERATE LWC COMPONENT
+// ==========================================================
+
+/*
+
+sf lightning generate component --type lwc --name collegeManagement
+
+*/
+
+
+// ==========================================================
+// STEP 10
+// collegeManagement.html CODE
+// ==========================================================
+
+/*
+
+<template>
+
+    <lightning-card title="College Management System">
+
+        <div class="slds-p-around_medium">
+
+            <h1>Student Form</h1>
+
+            <lightning-input
+                label="Student Name"
+                onchange={handleStudentName}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Roll Number"
+                onchange={handleRoll}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Marks"
+                onchange={handleMarks}>
+            </lightning-input>
+
+            <lightning-input
+                type="email"
+                label="Email"
+                onchange={handleStudentEmail}>
+            </lightning-input>
+
+            <br/>
+
+            <lightning-button
+                label="Save Student"
+                variant="brand"
+                onclick={saveStudent}>
+            </lightning-button>
+
+            <br/><br/>
+
+            <h1>Faculty Form</h1>
+
+            <lightning-input
+                label="Faculty Name"
+                onchange={handleFacultyName}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Faculty ID"
+                onchange={handleFacultyId}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Salary"
+                onchange={handleSalary}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Department"
+                options={departmentOptions}
+                onchange={handleDepartment}>
+            </lightning-combobox>
+
+            <lightning-input
+                type="date"
+                label="Joining Date"
+                onchange={handleJoiningDate}>
+            </lightning-input>
+
+            <br/>
+
+            <lightning-button
+                label="Save Faculty"
+                variant="success"
+                onclick={saveFaculty}>
+            </lightning-button>
+
+        </div>
+
+    </lightning-card>
+
+</template>
+
+*/
+
+
+// ==========================================================
+// STEP 11
+// collegeManagement.js CODE
+// ==========================================================
+
+/*
+
+import { LightningElement } from 'lwc';
+
+import saveStudentData from '@salesforce/apex/CollegeController.saveStudent';
+import saveFacultyData from '@salesforce/apex/CollegeController.saveFaculty';
+
+export default class CollegeManagement extends LightningElement {
+
+    studentName;
+    rollNo;
+    marks;
+    studentEmail;
+
+    facultyName;
+    facultyId;
+    salary;
+    department;
+    joiningDate;
+
+    departmentOptions = [
+
+        { label: 'Computer', value: 'Computer' },
+        { label: 'IT', value: 'IT' },
+        { label: 'EXTC', value: 'EXTC' },
+        { label: 'Mechanical', value: 'Mechanical' }
+
+    ];
+
+
+    handleStudentName(event) {
+
+        this.studentName = event.target.value;
+    }
+
+    handleRoll(event) {
+
+        this.rollNo = event.target.value;
+    }
+
+    handleMarks(event) {
+
+        this.marks = event.target.value;
+    }
+
+    handleStudentEmail(event) {
+
+        this.studentEmail = event.target.value;
+    }
+
+    handleFacultyName(event) {
+
+        this.facultyName = event.target.value;
+    }
+
+    handleFacultyId(event) {
+
+        this.facultyId = event.target.value;
+    }
+
+    handleSalary(event) {
+
+        this.salary = event.target.value;
+    }
+
+    handleDepartment(event) {
+
+        this.department = event.target.value;
+    }
+
+    handleJoiningDate(event) {
+
+        this.joiningDate = event.target.value;
+    }
+
+
+
+    saveStudent() {
+
+        saveStudentData({
+
+            studentName: this.studentName,
+            rollNo: parseInt(this.rollNo),
+            marks: parseFloat(this.marks),
+            email: this.studentEmail
+
+        })
+
+        .then(result => {
+
+            alert(result);
+        })
+
+        .catch(error => {
+
+            alert(error.body.message);
+        });
+    }
+
+
+
+    saveFaculty() {
+
+        saveFacultyData({
+
+            facultyName: this.facultyName,
+            facultyId: parseInt(this.facultyId),
+            salary: parseFloat(this.salary),
+            department: this.department,
+            joiningDate: this.joiningDate
+
+        })
+
+        .then(result => {
+
+            alert(result);
+        })
+
+        .catch(error => {
+
+            alert(error.body.message);
+        });
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 12
+// collegeManagement.js-meta.xml CODE
+// ==========================================================
+
+/*
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LightningComponentBundle
+xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <apiVersion>60.0</apiVersion>
+
+    <isExposed>true</isExposed>
+
+    <targets>
+
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+
+    </targets>
+
+</LightningComponentBundle>
+
+*/
+
+
+// ==========================================================
+// STEP 13
+// DEPLOY PROJECT
+// ==========================================================
+
+/*
+
+sf project deploy start
+
+*/
+
+
+// ==========================================================
+// STEP 14
+// CREATE LIGHTNING APP PAGE
+// ==========================================================
+
+// Salesforce
+//
+// Setup
+// → Lightning App Builder
+// → New
+// → App Page
+
+
+// ==========================================================
+// PAGE NAME
+// ==========================================================
+
+// CollegeManagementApp
+
+
+// ==========================================================
+// STEP 15
+// ADD COMPONENT
+// ==========================================================
+
+// Drag:
+//
+// collegeManagement
+//
+// onto page
+
+// Save and Activate
+
+
+// ==========================================================
+// EXPECTED OUTPUT
+// ==========================================================
+
+// Student Form
+// Faculty Form
+// Validations
+// Database Insertion
+// Lightning Web Component UI
+
+
+// ==========================================================
+// IMPORTANT VIVA QUESTIONS
+// ==========================================================
+
+// What is LWC?
+//
+// Modern reusable frontend framework in Salesforce.
+
+
+// Why validations?
+//
+// To maintain data integrity.
+
+
+// Why use Apex?
+//
+// Backend logic implementation.
+
+
+// What is @AuraEnabled?
+//
+// Allows Apex methods to be called from LWC.
+
+
+// What is lightning-combobox?
+//
+// Dropdown field component.
+
+
+// Difference between Visualforce and LWC?
+//
+// Visualforce → older
+// LWC → modern and faster
+
+
+// ==========================================================
+// CONCLUSION
+// ==========================================================
+
+// Successfully implemented College Management
+// Lightning Application using Salesforce,
+// Apex backend, validations, and Lightning
+// Web Components.
