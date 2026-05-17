@@ -1,0 +1,549 @@
+// ==========================================================
+// ASSIGNMENT 20
+// EMPLOYEE MANAGEMENT LIGHTNING WEB COMPONENT
+// ==========================================================
+
+
+// ==========================================================
+// AIM
+// ==========================================================
+
+// Develop an Employee Management System using:
+//
+// 1. Salesforce
+// 2. Apex
+// 3. Lightning Web Components (LWC)
+//
+// with validations for:
+//
+// - Employee Name
+// - Employee ID
+// - Salary
+// - Email
+// - Department
+// - Joining Date
+
+
+// ==========================================================
+// SOFTWARE REQUIRED
+// ==========================================================
+
+// 1. VS Code
+// 2. Salesforce CLI
+// 3. Salesforce Extension Pack
+
+
+// ==========================================================
+// STEP 0
+// INSTALL SALESFORCE CLI
+// ==========================================================
+
+// Download:
+// https://developer.salesforce.com/tools/salesforcecli
+
+// Verify Installation:
+
+/*
+
+sf --version
+
+*/
+
+
+// ==========================================================
+// STEP 1
+// INSTALL SALESFORCE EXTENSION PACK
+// ==========================================================
+
+// Open VS Code
+// Extensions
+// Search:
+//
+// Salesforce Extension Pack
+//
+// Install
+
+
+// ==========================================================
+// STEP 2
+// ENABLE VS CODE TERMINAL COMMAND
+// ==========================================================
+
+// VS Code
+// Shift + Command + P
+//
+// Search:
+//
+// Shell Command
+//
+// Click:
+//
+// Shell Command: Install 'code' command in PATH
+
+
+// ==========================================================
+// STEP 3
+// CREATE SALESFORCE PROJECT
+// ==========================================================
+
+/*
+
+cd ~/LP2
+
+sf project generate --name Assignment20
+
+*/
+
+
+// ==========================================================
+// STEP 4
+// OPEN PROJECT
+// ==========================================================
+
+/*
+
+cd Assignment20
+
+code .
+
+*/
+
+
+// ==========================================================
+// STEP 5
+// LOGIN TO SALESFORCE
+// ==========================================================
+
+/*
+
+sf org login web --instance-url https://login.salesforce.com
+
+*/
+
+
+// ==========================================================
+// EXPECTED RESULT
+// ==========================================================
+
+// Successfully authorized
+
+
+// ==========================================================
+// STEP 6
+// CREATE EMPLOYEE OBJECT
+// ==========================================================
+
+// Salesforce
+//
+// Setup
+// → Object Manager
+// → Create
+// → Custom Object
+
+
+// ==========================================================
+// OBJECT DETAILS
+// ==========================================================
+
+// Label:
+// Employee
+//
+// Plural Label:
+// Employees
+//
+// Object Name:
+// Employee
+//
+// Record Name:
+// Employee Name
+
+
+// ==========================================================
+// STEP 7
+// CREATE FIELDS
+// ==========================================================
+
+// Go:
+// Fields & Relationships
+
+
+// ==========================================================
+// FIELD 1
+// ==========================================================
+
+// Employee ID
+// Type: Number
+
+
+// ==========================================================
+// FIELD 2
+// ==========================================================
+
+// Email
+// Type: Email
+
+
+// ==========================================================
+// FIELD 3
+// ==========================================================
+
+// Salary
+// Type: Currency
+
+
+// ==========================================================
+// FIELD 4
+// ==========================================================
+
+// Department
+// Type: Picklist
+
+// Values:
+//
+// HR
+// IT
+// Sales
+// Marketing
+
+
+// ==========================================================
+// FIELD 5
+// ==========================================================
+
+// Joining Date
+// Type: Date
+
+
+// ==========================================================
+// STEP 8
+// GENERATE APEX CLASS
+// ==========================================================
+
+/*
+
+sf apex generate class --name EmployeeController
+
+*/
+
+
+// ==========================================================
+// STEP 9
+// EMPLOYEECONTROLLER.CLS CODE
+// ==========================================================
+
+/*
+
+public with sharing class EmployeeController {
+
+    @AuraEnabled
+    public static String saveEmployee(
+        String name,
+        Integer empId,
+        String email,
+        Decimal salary,
+        String department,
+        Date joiningDate
+    ) {
+
+        if(name == null || name.length() < 3) {
+            return 'Employee Name must contain at least 3 characters';
+        }
+
+        if(empId <= 0) {
+            return 'Employee ID must be greater than 0';
+        }
+
+        if(salary < 10000 || salary > 500000) {
+            return 'Salary must be between 10000 and 500000';
+        }
+
+        if(joiningDate > Date.today()) {
+            return 'Joining Date cannot be future date';
+        }
+
+        Employee__c emp = new Employee__c();
+
+        emp.Name = name;
+        emp.Employee_ID__c = empId;
+        emp.Email__c = email;
+        emp.Salary__c = salary;
+        emp.Department__c = department;
+        emp.Joining_Date__c = joiningDate;
+
+        insert emp;
+
+        return 'Employee Saved Successfully';
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 10
+// GENERATE LWC COMPONENT
+// ==========================================================
+
+/*
+
+sf lightning generate component --type lwc --name employeeForm
+
+*/
+
+
+// ==========================================================
+// STEP 11
+// employeeForm.html CODE
+// ==========================================================
+
+/*
+
+<template>
+
+    <lightning-card title="Employee Management">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Employee Name"
+                onchange={handleName}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Employee ID"
+                onchange={handleId}>
+            </lightning-input>
+
+            <lightning-input
+                type="email"
+                label="Email"
+                onchange={handleEmail}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Salary"
+                onchange={handleSalary}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Department"
+                options={departmentOptions}
+                onchange={handleDepartment}>
+            </lightning-combobox>
+
+            <lightning-input
+                type="date"
+                label="Joining Date"
+                onchange={handleDate}>
+            </lightning-input>
+
+            <br/>
+
+            <lightning-button
+                label="Save Employee"
+                variant="brand"
+                onclick={saveEmployee}>
+            </lightning-button>
+
+        </div>
+
+    </lightning-card>
+
+</template>
+
+*/
+
+
+// ==========================================================
+// STEP 12
+// employeeForm.js CODE
+// ==========================================================
+
+/*
+
+import { LightningElement } from 'lwc';
+import saveEmployeeData from '@salesforce/apex/EmployeeController.saveEmployee';
+
+export default class EmployeeForm extends LightningElement {
+
+    name;
+    empId;
+    email;
+    salary;
+    department;
+    joiningDate;
+
+    departmentOptions = [
+        { label: 'HR', value: 'HR' },
+        { label: 'IT', value: 'IT' },
+        { label: 'Sales', value: 'Sales' },
+        { label: 'Marketing', value: 'Marketing' }
+    ];
+
+    handleName(event) {
+        this.name = event.target.value;
+    }
+
+    handleId(event) {
+        this.empId = event.target.value;
+    }
+
+    handleEmail(event) {
+        this.email = event.target.value;
+    }
+
+    handleSalary(event) {
+        this.salary = event.target.value;
+    }
+
+    handleDepartment(event) {
+        this.department = event.target.value;
+    }
+
+    handleDate(event) {
+        this.joiningDate = event.target.value;
+    }
+
+    saveEmployee() {
+
+        saveEmployeeData({
+            name: this.name,
+            empId: parseInt(this.empId),
+            email: this.email,
+            salary: parseFloat(this.salary),
+            department: this.department,
+            joiningDate: this.joiningDate
+        })
+        .then(result => {
+            alert(result);
+        })
+        .catch(error => {
+            alert(error.body.message);
+        });
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 13
+// employeeForm.js-meta.xml CODE
+// ==========================================================
+
+/*
+
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <apiVersion>60.0</apiVersion>
+
+    <isExposed>true</isExposed>
+
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+
+</LightningComponentBundle>
+
+*/
+
+
+// ==========================================================
+// STEP 14
+// DEPLOY PROJECT
+// ==========================================================
+
+/*
+
+sf project deploy start
+
+*/
+
+
+// ==========================================================
+// STEP 15
+// CREATE LIGHTNING APP PAGE
+// ==========================================================
+
+// Salesforce
+//
+// Setup
+// → Lightning App Builder
+// → New
+// → App Page
+
+
+// ==========================================================
+// PAGE NAME
+// ==========================================================
+
+// EmployeeApp
+
+
+// ==========================================================
+// STEP 16
+// ADD COMPONENT
+// ==========================================================
+
+// Drag:
+//
+// employeeForm
+//
+// onto page
+
+// Save and Activate
+
+
+// ==========================================================
+// EXPECTED OUTPUT
+// ==========================================================
+
+// Employee Form
+// Validations
+// Database Insertion
+// LWC Frontend
+
+
+// ==========================================================
+// IMPORTANT VIVA QUESTIONS
+// ==========================================================
+
+// What is LWC?
+//
+// Lightning Web Components are modern reusable UI
+// components in Salesforce.
+
+
+// Difference between VF and LWC?
+//
+// VF → older
+// LWC → modern
+
+
+// Why use @AuraEnabled?
+//
+// Allows Apex methods to be called from LWC.
+
+
+// Why validations?
+//
+// To maintain data integrity and accuracy.
+
+
+// What is lightning-input?
+//
+// Salesforce UI component for input fields.
+
+
+// ==========================================================
+// CONCLUSION
+// ==========================================================
+
+// Successfully implemented Employee Management System
+// using Salesforce Lightning Web Components,
+// Apex backend, validations, and cloud database storage.
