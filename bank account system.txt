@@ -523,3 +523,516 @@ BankAccountManagement.displayAccounts();
 // console-based Bank Account
 // Management System using
 // Salesforce Apex and SOQL.
+------------------------------------------------------------------------------------------------------------------------
+// ==========================================================
+// ASSIGNMENT 19
+// PRODUCT INVENTORY MANAGEMENT SYSTEM
+// ==========================================================
+
+
+// ==========================================================
+// PROBLEM STATEMENT
+// ==========================================================
+
+// Develop an application in Salesforce using
+// Apex programming language and Visualforce page
+// to manage Product Inventory records:
+//
+// 1. Product Name
+// 2. Serial No
+// 3. Manufacture Date
+// 4. Expiry Date
+//
+// Records should be stored in a custom object.
+
+
+// ==========================================================
+// AIM
+// ==========================================================
+
+// To develop a Product Inventory Management
+// System using:
+//
+// 1. Salesforce Custom Object
+// 2. Apex Controller
+// 3. Visualforce Page
+// 4. Database Record Storage
+
+
+// ==========================================================
+// WHAT WE WILL CREATE
+// ==========================================================
+
+// 1. Product Inventory Object
+// 2. Custom Fields
+// 3. Apex Controller
+// 4. Visualforce Form
+// 5. Save Product Records
+
+
+// ==========================================================
+// STEP 0
+// LOGIN TO SALESFORCE
+// ==========================================================
+
+// Open:
+//
+// https://login.salesforce.com
+
+// Login using Developer Org
+
+
+// ==========================================================
+// STEP 1
+// OPEN SETUP
+// ==========================================================
+
+// Top Right:
+//
+// Gear Icon
+// → Setup
+
+
+// ==========================================================
+// STEP 2
+// CREATE CUSTOM OBJECT
+// ==========================================================
+
+// Search:
+//
+// Object Manager
+
+// Open:
+//
+// Object Manager
+// → Create
+// → Custom Object
+
+
+// ==========================================================
+// OBJECT DETAILS
+// ==========================================================
+
+// Label:
+// Product Inventory
+
+// Plural Label:
+// Product Inventories
+
+// Object Name:
+// Product_Inventory
+
+// Record Name:
+// Product Name
+
+
+// ==========================================================
+// STEP 3
+// SAVE OBJECT
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// STEP 4
+// CREATE CUSTOM FIELDS
+// ==========================================================
+
+// Inside:
+//
+// Product Inventory Object
+//
+// → Fields & Relationships
+// → New
+
+
+// ==========================================================
+// FIELD 1
+// ==========================================================
+
+// Data Type:
+// Number
+
+// Field Label:
+// Serial No
+
+// Field Name:
+// Serial_No
+
+
+// ==========================================================
+// FIELD 2
+// ==========================================================
+
+// Data Type:
+// Date
+
+// Field Label:
+// Manufacture Date
+
+// Field Name:
+// Manufacture_Date
+
+
+// ==========================================================
+// FIELD 3
+// ==========================================================
+
+// Data Type:
+// Date
+
+// Field Label:
+// Expiry Date
+
+// Field Name:
+// Expiry_Date
+
+
+// ==========================================================
+// STEP 5
+// OPEN DEVELOPER CONSOLE
+// ==========================================================
+
+// Top Right:
+//
+// Gear Icon
+// → Developer Console
+
+
+// ==========================================================
+// STEP 6
+// CREATE APEX CLASS
+// ==========================================================
+
+// File
+// → New
+// → Apex Class
+
+
+// ==========================================================
+// CLASS NAME
+// ==========================================================
+
+// ProductController
+
+
+// ==========================================================
+// STEP 7
+// PASTE APEX CODE
+// ==========================================================
+
+/*
+
+public class ProductController {
+
+    public Product_Inventory__c product {
+
+        get;
+        set;
+    }
+
+
+
+    public ProductController() {
+
+        product =
+            new Product_Inventory__c();
+    }
+
+
+
+    public PageReference saveProduct() {
+
+        insert product;
+
+        ApexPages.addMessage(
+
+            new ApexPages.Message(
+
+                ApexPages.Severity.CONFIRM,
+
+                'Product Saved Successfully'
+            )
+        );
+
+        return null;
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 8
+// SAVE CLASS
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// STEP 9
+// CREATE VISUALFORCE PAGE
+// ==========================================================
+
+// Setup
+// → Visualforce Pages
+// → New
+
+
+// ==========================================================
+// PAGE DETAILS
+// ==========================================================
+
+// Label:
+// ProductPage
+
+// Name:
+// ProductPage
+
+
+// ==========================================================
+// STEP 10
+// PASTE VISUALFORCE CODE
+// ==========================================================
+
+/*
+
+<apex:page controller="ProductController">
+
+    <apex:form>
+
+        <apex:pageBlock
+            title="Product Inventory Form">
+
+            <apex:pageMessages />
+
+
+
+            <apex:pageBlockSection
+                columns="1">
+
+                <apex:inputField
+                    value="{!product.Name}" />
+
+                <apex:inputField
+                    value="{!product.Serial_No__c}" />
+
+                <apex:inputField
+                    value="{!product.Manufacture_Date__c}" />
+
+                <apex:inputField
+                    value="{!product.Expiry_Date__c}" />
+
+            </apex:pageBlockSection>
+
+
+
+            <apex:commandButton
+                value="Save Product"
+                action="{!saveProduct}" />
+
+        </apex:pageBlock>
+
+    </apex:form>
+
+</apex:page>
+
+*/
+
+
+// ==========================================================
+// STEP 11
+// SAVE PAGE
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// STEP 12
+// PREVIEW PAGE
+// ==========================================================
+
+// Click:
+//
+// Preview
+
+
+// ==========================================================
+// EXPECTED FORM
+// ==========================================================
+
+// Product Name
+// Serial No
+// Manufacture Date
+// Expiry Date
+// Save Product Button
+
+
+// ==========================================================
+// STEP 13
+// ENTER PRODUCT DETAILS
+// ==========================================================
+
+// Example:
+//
+// Product Name:
+// Laptop
+//
+// Serial No:
+// 101
+//
+// Manufacture Date:
+// 2025-01-01
+//
+// Expiry Date:
+// 2027-01-01
+
+
+// ==========================================================
+// STEP 14
+// SAVE PRODUCT
+// ==========================================================
+
+// Click:
+//
+// Save Product
+
+
+// ==========================================================
+// EXPECTED OUTPUT
+// ==========================================================
+
+// Product Saved Successfully
+
+
+// ==========================================================
+// WHAT ACTUALLY HAPPENED?
+// ==========================================================
+
+// FLOW:
+
+// Visualforce Form
+// ↓
+// Apex Controller
+// ↓
+// insert product
+// ↓
+// Salesforce Database
+// ↓
+// Success Message
+
+
+// ==========================================================
+// IMPORTANT CONCEPTS
+// ==========================================================
+
+// Apex
+// Visualforce
+// Custom Object
+// Custom Fields
+// DML
+// ApexPages.Message
+// Controller
+
+
+// ==========================================================
+// CODE EXPLANATION
+// ==========================================================
+
+// Product_Inventory__c
+// → custom object
+
+
+// insert product
+// → saves record into database
+
+
+// ApexPages.addMessage()
+// → displays success/error message
+
+
+// public ProductController()
+// → constructor
+
+
+// PageReference
+// → controls page navigation
+
+
+// ==========================================================
+// IMPORTANT VIVA QUESTIONS
+// ==========================================================
+
+// What is Visualforce?
+//
+// Salesforce frontend framework.
+
+
+// What is Apex?
+//
+// Salesforce backend language.
+
+
+// What is Controller?
+//
+// Connects frontend and backend.
+
+
+// What is DML?
+//
+// Database operation language.
+
+
+// What is insert keyword?
+//
+// Saves records into database.
+
+
+// What is ApexPages.Message?
+//
+// Displays success/error messages.
+
+
+// What is Custom Object?
+//
+// User-created Salesforce table.
+
+
+// Difference between Object and Field?
+//
+// Object → table
+// Field → column
+
+
+// ==========================================================
+// ADVANTAGES
+// ==========================================================
+
+// 1. Cloud-based inventory management
+// 2. Easy product storage
+// 3. Centralized data handling
+// 4. User-friendly frontend
+
+
+// ==========================================================
+// CONCLUSION
+// ==========================================================
+
+// Successfully developed a
+// Product Inventory Management
+// System using:
+//
+// - Salesforce
+// - Apex Controller
+// - Visualforce Page
+// - Custom Objects
+// - Cloud Database Storage
