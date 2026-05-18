@@ -1,0 +1,525 @@
+// ==========================================================
+// ASSIGNMENT 18
+// BANK ACCOUNT SYSTEM USING SALESFORCE
+// ==========================================================
+
+
+// ==========================================================
+// PROBLEM STATEMENT
+// ==========================================================
+
+// Develop a menu-driven Bank Account System
+// that manages customer records using
+// Salesforce Apex in console-based approach.
+
+
+// ==========================================================
+// AIM
+// ==========================================================
+
+// To create a Bank Account Management System
+// using Salesforce Apex that can:
+//
+// 1. Insert customer records
+// 2. Display customer records
+// 3. Manage bank account information
+
+
+// ==========================================================
+// WHAT WE WILL CREATE
+// ==========================================================
+
+// 1. Custom Object
+// 2. Custom Fields
+// 3. Apex Class
+// 4. Insert Logic
+// 5. Display Logic
+// 6. Execute Anonymous Execution
+
+
+// ==========================================================
+// STEP 0
+// LOGIN TO SALESFORCE
+// ==========================================================
+
+// Open:
+//
+// https://login.salesforce.com
+
+// Login using Salesforce Developer account
+
+
+// ==========================================================
+// STEP 1
+// OPEN SETUP
+// ==========================================================
+
+// Top Right:
+//
+// Gear Icon
+// → Setup
+
+
+// ==========================================================
+// STEP 2
+// CREATE CUSTOM OBJECT
+// ==========================================================
+
+// Search:
+//
+// Object Manager
+
+// Open:
+//
+// Object Manager
+// → Create
+// → Custom Object
+
+
+// ==========================================================
+// OBJECT DETAILS
+// ==========================================================
+
+// Label:
+// Bank Account
+
+// Plural Label:
+// Bank Accounts
+
+// Object Name:
+// Bank_Account
+
+// Record Name:
+// Customer Name
+
+
+// ==========================================================
+// STEP 3
+// SAVE OBJECT
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// STEP 4
+// CREATE CUSTOM FIELDS
+// ==========================================================
+
+// Inside:
+//
+// Bank Account Object
+//
+// → Fields & Relationships
+// → New
+
+
+// ==========================================================
+// FIELD 1
+// ==========================================================
+
+// Data Type:
+// Number
+
+// Field Label:
+// Customer ID
+
+// Field Name:
+// Customer_ID
+
+
+// ==========================================================
+// FIELD 2
+// ==========================================================
+
+// Data Type:
+// Email
+
+// Field Label:
+// Email
+
+// Field Name:
+// Email
+
+
+// ==========================================================
+// FIELD 3
+// ==========================================================
+
+// Data Type:
+// Date
+
+// Field Label:
+// Birth Date
+
+// Field Name:
+// Birth_Date
+
+
+// ==========================================================
+// FIELD 4
+// ==========================================================
+
+// Data Type:
+// Picklist
+
+// Field Label:
+// Department
+
+// Field Name:
+// Department
+
+
+// ==========================================================
+// PICKLIST VALUES
+// ==========================================================
+
+// Savings
+// Current
+// Loan
+
+
+// ==========================================================
+// STEP 5
+// OPEN DEVELOPER CONSOLE
+// ==========================================================
+
+// Top Right:
+//
+// Gear Icon
+// → Developer Console
+
+
+// ==========================================================
+// STEP 6
+// CREATE APEX CLASS
+// ==========================================================
+
+// File
+// → New
+// → Apex Class
+
+
+// ==========================================================
+// CLASS NAME
+// ==========================================================
+
+// BankAccountManagement
+
+
+// ==========================================================
+// STEP 7
+// PASTE APEX CODE
+// ==========================================================
+
+/*
+
+public class BankAccountManagement {
+
+    // INSERT CUSTOMER RECORD
+
+    public static void insertAccount() {
+
+        Bank_Account__c acc =
+            new Bank_Account__c();
+
+        acc.Name = 'Tanisha Joshi';
+
+        acc.Customer_ID__c = 101;
+
+        acc.Email__c =
+            'tanisha@gmail.com';
+
+        acc.Birth_Date__c =
+            Date.newInstance(
+                2004,
+                5,
+                10
+            );
+
+        acc.Department__c =
+            'Savings';
+
+        insert acc;
+
+        System.debug(
+            'Bank Account Inserted Successfully'
+        );
+    }
+
+
+
+    // DISPLAY CUSTOMER RECORDS
+
+    public static void displayAccounts() {
+
+        List<Bank_Account__c> accList = [
+
+            SELECT Id,
+                   Name,
+                   Customer_ID__c,
+                   Email__c,
+                   Birth_Date__c,
+                   Department__c
+
+            FROM Bank_Account__c
+        ];
+
+
+
+        for(Bank_Account__c acc : accList) {
+
+            System.debug(
+
+                'Customer Name: ' + acc.Name +
+
+                ' | Customer ID: ' + acc.Customer_ID__c +
+
+                ' | Email: ' + acc.Email__c +
+
+                ' | Birth Date: ' + acc.Birth_Date__c +
+
+                ' | Account Type: ' + acc.Department__c
+            );
+        }
+    }
+}
+
+*/
+
+
+// ==========================================================
+// STEP 8
+// SAVE CLASS
+// ==========================================================
+
+// Click:
+//
+// Save
+
+
+// ==========================================================
+// STEP 9
+// EXECUTE INSERT METHOD
+// ==========================================================
+
+// Debug
+// → Open Execute Anonymous Window
+
+// Shortcut:
+//
+// Command + E
+
+
+// ==========================================================
+// PASTE THIS CODE
+// ==========================================================
+
+/*
+
+BankAccountManagement.insertAccount();
+
+*/
+
+
+// ==========================================================
+// STEP 10
+// EXECUTE
+// ==========================================================
+
+// Click:
+//
+// Execute
+
+
+// ==========================================================
+// EXPECTED RESULT
+// ==========================================================
+
+// Record inserted successfully
+
+
+// ==========================================================
+// STEP 11
+// DISPLAY CUSTOMER RECORDS
+// ==========================================================
+
+// Again:
+//
+// Debug
+// → Open Execute Anonymous Window
+
+
+// ==========================================================
+// PASTE THIS CODE
+// ==========================================================
+
+/*
+
+BankAccountManagement.displayAccounts();
+
+*/
+
+
+// ==========================================================
+// STEP 12
+// EXECUTE
+// ==========================================================
+
+// Click:
+//
+// Execute
+
+
+// ==========================================================
+// STEP 13
+// CHECK LOGS
+// ==========================================================
+
+// Bottom Panel
+// → Logs
+
+// Double-click latest log
+
+
+// ==========================================================
+// SEARCH OUTPUT
+// ==========================================================
+
+// Search:
+//
+// Customer Name
+
+
+// ==========================================================
+// EXPECTED OUTPUT
+// ==========================================================
+
+// Customer Name: Tanisha Joshi
+// Customer ID: 101
+// Email: tanisha@gmail.com
+// Birth Date: 2004-05-10
+// Account Type: Savings
+
+
+// ==========================================================
+// WHAT ACTUALLY HAPPENED?
+// ==========================================================
+
+// FLOW:
+
+// Apex Class
+// ↓
+// Insert Record
+// ↓
+// Salesforce Database
+// ↓
+// SOQL Query
+// ↓
+// Display Records
+// ↓
+// Debug Logs
+
+
+// ==========================================================
+// IMPORTANT CONCEPTS
+// ==========================================================
+
+// Apex
+// SOQL
+// DML
+// Custom Object
+// Custom Fields
+// Execute Anonymous
+// System.debug()
+
+
+// ==========================================================
+// COMMAND/KEYWORD EXPLANATION
+// ==========================================================
+
+// insert acc;
+// → inserts record into Salesforce database
+
+
+// SELECT
+// → retrieves records using SOQL
+
+
+// List<Bank_Account__c>
+// → collection of records
+
+
+// System.debug()
+// → prints output into logs
+
+
+// Date.newInstance()
+// → creates custom date
+
+
+// ==========================================================
+// IMPORTANT VIVA QUESTIONS
+// ==========================================================
+
+// What is Salesforce?
+//
+// Cloud CRM platform.
+
+
+// What is Apex?
+//
+// Backend language in Salesforce.
+
+
+// What is SOQL?
+//
+// Salesforce query language.
+
+
+// What is DML?
+//
+// Database operation commands.
+
+
+// What is Custom Object?
+//
+// User-created database table.
+
+
+// What is Execute Anonymous?
+//
+// Temporary Apex execution window.
+
+
+// What is System.debug()?
+//
+// Displays output in logs.
+
+
+// Difference between Object and Record?
+//
+// Object → table
+// Record → row
+
+
+// ==========================================================
+// ADVANTAGES
+// ==========================================================
+
+// 1. Cloud-based data storage
+// 2. Centralized customer management
+// 3. Secure database handling
+// 4. Easy retrieval of records
+
+
+// ==========================================================
+// CONCLUSION
+// ==========================================================
+
+// Successfully implemented a
+// console-based Bank Account
+// Management System using
+// Salesforce Apex and SOQL.
